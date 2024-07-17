@@ -49,6 +49,9 @@ Annecy, France
 
 ## Projects
 
+### Gait Analysis (2024) | Paris, France
+- Analyzed knee flexion using classification methods in Python (PCA, K-Medoids, K-Means++) to theorize human gait behavior under constraints.
+
 ### Mathematics Research (2024) | Paris, France
 - Conducted research on the optimal transport problem to enhance particular filtering.
 - Developed a Python algorithm for efficient testing and analysis.
@@ -59,9 +62,6 @@ Annecy, France
 ### TIPE: Solar Plane (2022) | Annecy, France
 - Built an autonomous solar plane with flight optimization, achieving a 28% increase in flight time.
 - Extracted and analyzed gyroscopic/accelerometer data using Python for machine learning models.
-
-### Gait Analysis (2024) | Paris, France
-- Analyzed knee flexion using classification methods in Python (PCA, K-Medoids, K-Means++) to theorize human gait behavior under constraints.
 
 ### High School Regional Olympics Finalist (2020) | Grenoble, France
 - Developed a smart cleaning whiteboard for disabled users, showcasing innovative problem-solving skills.

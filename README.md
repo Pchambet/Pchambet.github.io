@@ -3,7 +3,6 @@
 ### Contact Information
 - **Email:** pierrechambet@gmail.com
 - **Phone:** +33 7 78 66 44 85
-- **Location:** Paris, France
 
 ---
 

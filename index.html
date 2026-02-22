@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pierre Chambet — ML Engineer</title>
-    <meta name="description" content="Pierre Chambet — M2 Engineering Student at Télécom SudParis, specializing in Machine Learning and Deep Learning.">
+    <meta name="description" content="Pierre Chambet — M2 Engineering Student at Télécom SudParis specializing in Machine Learning and Deep Learning.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,359 +12,612 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #fafafa;
-            --bg-card: #ffffff;
-            --text: #1a1a2e;
-            --text-secondary: #555;
-            --accent: #2563eb;
-            --accent-light: #dbeafe;
-            --border: #e5e7eb;
-            --tag-bg: #f1f5f9;
-            --tag-text: #475569;
-            --radius: 12px;
-            --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            --shadow-hover: 0 10px 25px rgba(0,0,0,0.08);
+            --bg: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-hover: #253348;
+            --text: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent: #5eead4;
+            --accent-dim: rgba(94, 234, 212, 0.1);
+            --border: #1e293b;
+            --tag-bg: rgba(94, 234, 212, 0.1);
+            --tag-text: #5eead4;
         }
+
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg);
-            color: var(--text);
+            color: var(--text-secondary);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
-        a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
-        a:hover { opacity: 0.8; }
+        a { color: var(--text-secondary); text-decoration: none; transition: color 0.25s; }
+        a:hover { color: var(--accent); }
 
-        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+        ::selection { background: rgba(94, 234, 212, 0.25); color: var(--text); }
 
-        /* ── Hero ── */
-        .hero {
-            padding: 80px 0 60px;
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 12px;
-        }
-        .hero .subtitle {
-            font-size: 1.15rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 28px;
-        }
-        .hero-links {
+        /* ── Layout ── */
+        .layout {
             display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding: 0 24px;
         }
-        .hero-links a {
+
+        /* ── Sidebar ── */
+        .sidebar {
+            position: sticky;
+            top: 0;
+            width: 45%;
+            max-height: 100vh;
+            padding: 96px 48px 96px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center top;
+            margin-bottom: 24px;
+            border: 2px solid var(--border);
+            filter: grayscale(0%);
+            transition: filter 0.4s, border-color 0.4s;
+        }
+        .photo:hover { border-color: var(--accent); }
+
+        .sidebar h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .sidebar .title {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+
+        .sidebar .bio {
+            font-size: 0.92rem;
+            line-height: 1.65;
+            max-width: 320px;
+            margin-bottom: 40px;
+        }
+
+        /* ── Nav ── */
+        .nav { list-style: none; margin-bottom: auto; }
+        .nav li { margin-bottom: 8px; }
+        .nav a {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.2s;
+            gap: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            padding: 6px 0;
+            transition: color 0.25s;
         }
-        .btn-primary {
-            background: var(--accent);
-            color: #fff !important;
+        .nav a::before {
+            content: '';
+            display: inline-block;
+            width: 32px;
+            height: 1px;
+            background: var(--text-muted);
+            transition: width 0.25s, background 0.25s;
         }
-        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-secondary {
-            background: var(--bg-card);
-            color: var(--text) !important;
-            border: 1px solid var(--border);
+        .nav a:hover, .nav a.active {
+            color: var(--text);
         }
-        .btn-secondary:hover { border-color: var(--accent); color: var(--accent) !important; }
+        .nav a:hover::before, .nav a.active::before {
+            width: 64px;
+            background: var(--text);
+        }
 
-        /* ── Sections ── */
-        section { padding: 50px 0; }
-        section h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.01em;
+        /* ── Social links ── */
+        .socials {
+            display: flex;
+            gap: 20px;
+            padding-top: 32px;
         }
-        section .section-desc {
-            color: var(--text-secondary);
-            margin-bottom: 32px;
+        .socials a {
+            color: var(--text-muted);
+            transition: color 0.25s;
+        }
+        .socials a:hover { color: var(--text); }
+        .socials svg { width: 22px; height: 22px; }
+
+        /* ── Main content ── */
+        .content {
+            width: 55%;
+            padding: 96px 0 96px 24px;
+        }
+
+        .content section {
+            margin-bottom: 96px;
+            scroll-margin-top: 80px;
+        }
+
+        .section-label {
+            display: none;
+        }
+
+        /* ── About ── */
+        .about p {
             font-size: 0.95rem;
+            line-height: 1.8;
+            margin-bottom: 16px;
         }
+        .about p a {
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .about p a:hover { color: var(--accent); }
+        .about strong { color: var(--text); font-weight: 500; }
 
         /* ── Project cards ── */
-        .projects-grid {
+        .project-item {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-        .project-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px 28px;
+            grid-template-columns: 100px 1fr;
+            gap: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 0 -20px;
             transition: all 0.25s;
-            box-shadow: var(--shadow);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
         }
-        .project-card:hover {
-            box-shadow: var(--shadow-hover);
-            border-color: var(--accent);
-            transform: translateY(-2px);
+        .project-item:hover {
+            background: rgba(94, 234, 212, 0.03);
+            box-shadow: inset 0 1px 0 0 rgba(94, 234, 212, 0.05);
         }
-        .project-card h3 {
-            font-size: 1.05rem;
+        .project-item:hover .project-title { color: var(--accent); }
+
+        .project-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            padding-top: 6px;
+            line-height: 1.6;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .project-title {
+            font-size: 1rem;
             font-weight: 600;
+            color: var(--text);
             margin-bottom: 6px;
+            transition: color 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-        .project-card h3 a { color: var(--text); }
-        .project-card h3 a:hover { color: var(--accent); }
-        .project-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.55;
-            margin-bottom: 14px;
+        .project-title .arrow {
+            font-size: 0.85rem;
+            transition: transform 0.25s;
+            display: inline-block;
         }
+        .project-item:hover .project-title .arrow {
+            transform: translate(3px, -3px);
+        }
+
+        .project-desc {
+            font-size: 0.87rem;
+            line-height: 1.65;
+            margin-bottom: 12px;
+        }
+
         .project-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
         }
-        .project-tags span {
+        .tag {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            padding: 3px 10px;
-            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 4px 12px;
+            border-radius: 999px;
             background: var(--tag-bg);
             color: var(--tag-text);
-            font-weight: 500;
         }
-        .project-card .demo-link {
-            display: inline-block;
-            font-size: 0.82rem;
+
+        .demo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.78rem;
             font-weight: 500;
-            margin-bottom: 12px;
             color: var(--accent);
+            margin-bottom: 10px;
         }
+        .demo-badge svg { width: 14px; height: 14px; }
 
         /* ── Skills ── */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
-        .skill-group {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px 24px;
-            box-shadow: var(--shadow);
+        .skill-row {
+            padding: 16px 20px;
+            border-radius: 8px;
+            transition: background 0.25s;
         }
-        .skill-group h3 {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
+        .skill-row:hover {
+            background: rgba(94, 234, 212, 0.03);
+        }
+        .skill-label {
+            font-size: 0.72rem;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 6px;
         }
-        .skill-group p {
-            font-size: 0.92rem;
-            line-height: 1.7;
+        .skill-value {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
 
-        /* ── About ── */
-        .about-content {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 28px 32px;
-            box-shadow: var(--shadow);
-            font-size: 0.95rem;
-            line-height: 1.75;
+        /* ── Education ── */
+        .edu-item {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 0 -20px 8px;
+            transition: background 0.25s;
+        }
+        .edu-item:hover {
+            background: rgba(94, 234, 212, 0.03);
+        }
+        .edu-year {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            margin-bottom: 4px;
+        }
+        .edu-school {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+        .edu-detail {
+            font-size: 0.87rem;
             color: var(--text-secondary);
         }
-        .about-content strong { color: var(--text); }
+
+        /* ── Scroll fade-in ── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* ── Footer ── */
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border);
-            margin-top: 20px;
+        .footer-note {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            padding-bottom: 48px;
         }
-        footer a { font-weight: 500; }
+        .footer-note a { color: var(--text-secondary); font-weight: 500; }
+        .footer-note a:hover { color: var(--accent); }
 
-        /* ── SVG icons ── */
-        .icon { width: 18px; height: 18px; vertical-align: middle; }
+        /* ── Spotlight cursor effect ── */
+        .spotlight {
+            pointer-events: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            transition: opacity 0.3s;
+        }
+        .layout { position: relative; z-index: 1; }
 
         /* ── Responsive ── */
-        @media (max-width: 600px) {
-            .hero { padding: 50px 0 40px; }
-            .hero h1 { font-size: 1.8rem; }
-            .hero .subtitle { font-size: 1rem; }
-            section h2 { font-size: 1.3rem; }
-            .project-card { padding: 20px; }
-            .skills-grid { grid-template-columns: 1fr 1fr; }
+        @media (max-width: 900px) {
+            .layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: relative;
+                width: 100%;
+                max-height: none;
+                padding: 60px 0 20px;
+            }
+            .nav { display: none; }
+            .content {
+                width: 100%;
+                padding: 20px 0 60px;
+            }
+            .content section { margin-bottom: 64px; }
+            .section-label {
+                display: block;
+                font-size: 0.78rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--text);
+                margin-bottom: 32px;
+                position: sticky;
+                top: 0;
+                padding: 16px 0;
+                background: var(--bg);
+                z-index: 2;
+            }
+            .sidebar h1 { font-size: 2.2rem; }
+            .project-item { grid-template-columns: 1fr; gap: 4px; }
+            .project-meta { padding-top: 0; }
+            .skills-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="spotlight" id="spotlight"></div>
 
-    <!-- Hero -->
-    <header class="hero">
+<div class="layout">
+
+    <!-- ─── Sidebar ─── -->
+    <header class="sidebar">
+        <img src="photo.png" alt="Pierre Chambet" class="photo">
         <h1>Pierre Chambet</h1>
-        <p class="subtitle">
-            M2 Engineering Student at Télécom SudParis / Institut Polytechnique de Paris.
-            Machine Learning, Deep Learning, and applied mathematics — from first principles to production.
-        </p>
-        <div class="hero-links">
-            <a href="https://github.com/Pchambet" class="btn-primary">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                GitHub
+        <p class="title">ML &amp; Deep Learning Engineer</p>
+        <p class="bio">I build machine learning systems from first principles. My focus is bridging research-grade methods with real-world applications.</p>
+
+        <nav>
+            <ul class="nav">
+                <li><a href="#about" class="active">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#education">Education</a></li>
+            </ul>
+        </nav>
+
+        <div class="socials">
+            <a href="https://github.com/Pchambet" aria-label="GitHub" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
             </a>
-            <a href="https://www.linkedin.com/in/pierre-chambet-289a5b220/" class="btn-secondary">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                LinkedIn
+            <a href="https://www.linkedin.com/in/pierre-chambet/" aria-label="LinkedIn" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             </a>
-            <a href="mailto:pierrechambet@gmail.com" class="btn-secondary">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                Email
+            <a href="mailto:pierrechambet@gmail.com" aria-label="Email">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/></svg>
             </a>
         </div>
     </header>
 
-    <!-- About -->
-    <section>
-        <h2>About</h2>
-        <div class="about-content">
-            I build machine learning systems from first principles — not to reinvent the wheel, but to understand every gear inside it.
-            Currently completing my <strong>Master's degree at Télécom SudParis</strong> (Institut Polytechnique de Paris),
-            my work spans <strong>computer vision</strong>, <strong>NLP</strong>, <strong>probabilistic modeling</strong>, and <strong>optimization</strong>.
-            I care about writing code that is clear, reproducible, and well-documented — because understanding matters as much as accuracy.
+    <!-- ─── Content ─── -->
+    <main class="content">
+
+        <!-- About -->
+        <section id="about">
+            <p class="section-label">About</p>
+            <div class="about">
+                <p class="fade-in">
+                    I'm currently completing my <strong>Master's degree at
+                    <a href="https://www.telecom-sudparis.eu/" target="_blank" rel="noopener">Télécom SudParis</a></strong>
+                    (Institut Polytechnique de Paris), specializing in data science and applied mathematics.
+                    My work spans <strong>computer vision</strong>, <strong>NLP</strong>,
+                    <strong>probabilistic modeling</strong>, and <strong>mathematical optimization</strong>.
+                </p>
+                <p class="fade-in">
+                    I don't just run <code style="font-family:'JetBrains Mono',monospace; font-size:0.85em; color:var(--text); background:var(--bg-card); padding:2px 6px; border-radius:4px;">.fit()</code>.
+                    I build the thing, understand every gradient, and then trust it.
+                    From implementing backpropagation by hand in NumPy to fine-tuning BERT on real data,
+                    I care about what happens between the math and the result.
+                </p>
+                <p class="fade-in">
+                    When I'm not training models, you'll find me trail running in the Alps,
+                    playing jazz piano, or planning the next mountaineering trip.
+                </p>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects">
+            <p class="section-label">Projects</p>
+
+            <a href="https://github.com/Pchambet/mushroom-project" class="project-item fade-in" target="_blank" rel="noopener">
+                <div class="project-meta">2026<br>Python</div>
+                <div>
+                    <h3 class="project-title">Mushroom Toxicity Classifier <span class="arrow">&nearr;</span></h3>
+                    <div class="demo-badge">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                        <a href="https://pchambet-mushroom-project.streamlit.app/" onclick="event.stopPropagation()">Live demo</a>
+                    </div>
+                    <p class="project-desc">End-to-end ML pipeline on categorical data: MCA encoding, hierarchical clustering, LDA classification, model benchmarking. Interactive Streamlit dashboard, CI/CD via GitHub Actions, Makefile-orchestrated pipeline.</p>
+                    <div class="project-tags">
+                        <span class="tag">scikit-learn</span><span class="tag">Streamlit</span><span class="tag">MCA</span><span class="tag">CI/CD</span><span class="tag">Makefile</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://github.com/Pchambet/cnn-explainability-workshop" class="project-item fade-in" target="_blank" rel="noopener">
+                <div class="project-meta">2026<br>TensorFlow</div>
+                <div>
+                    <h3 class="project-title">CNN Explainability Workshop <span class="arrow">&nearr;</span></h3>
+                    <p class="project-desc">What do CNNs actually learn? Filter visualization on VGG16, Grad-CAM heatmaps, occlusion sensitivity, a quantitative challenge of CNIL anonymization guidelines, and one-shot face recognition via transfer learning.</p>
+                    <div class="project-tags">
+                        <span class="tag">Grad-CAM</span><span class="tag">VGG16</span><span class="tag">OpenCV</span><span class="tag">XAI</span><span class="tag">Transfer Learning</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://github.com/Pchambet/Deep-Learning-from-Scratch" class="project-item fade-in" target="_blank" rel="noopener">
+                <div class="project-meta">2025<br>NumPy</div>
+                <div>
+                    <h3 class="project-title">Deep Learning from Scratch <span class="arrow">&nearr;</span></h3>
+                    <p class="project-desc">From a single neuron to convolutional networks on MNIST &mdash; 12 notebooks, 3 PDF guides, every gradient derived by hand. Built as a learning-in-public series with accompanying LinkedIn posts.</p>
+                    <div class="project-tags">
+                        <span class="tag">Backpropagation</span><span class="tag">MNIST</span><span class="tag">CNN</span><span class="tag">From scratch</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://github.com/Pchambet/NLP-from-scratch-to-BERT" class="project-item fade-in" target="_blank" rel="noopener">
+                <div class="project-meta">2026<br>NLP</div>
+                <div>
+                    <h3 class="project-title">NLP: From Scratch to BERT <span class="arrow">&nearr;</span></h3>
+                    <p class="project-desc">The full NLP progression in 4 notebooks: text preprocessing, Bag-of-Words &amp; TF-IDF for spam classification, Word2Vec/FastText embeddings, and BERT fine-tuning with Hugging Face Transformers.</p>
+                    <div class="project-tags">
+                        <span class="tag">BERT</span><span class="tag">Word2Vec</span><span class="tag">Transformers</span><span class="tag">Gensim</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://github.com/Pchambet/Particle-Filter-Optimal-Transport" class="project-item fade-in" target="_blank" rel="noopener">
+                <div class="project-meta">2024<br>Research</div>
+                <div>
+                    <h3 class="project-title">Differentiable Particle Filter <span class="arrow">&nearr;</span></h3>
+                    <p class="project-desc">Research project implementing differentiable particle filtering via entropy-regularized optimal transport. Full mathematical proofs and auto-differentiation for parameter estimation.</p>
+                    <div class="project-tags">
+                        <span class="tag">Optimal Transport</span><span class="tag">Bayesian</span><span class="tag">Mathematics</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://github.com/Pchambet/mnist-latent-space-ae-vae" class="project-item fade-in" target="_blank" rel="noopener">
+                <div class="project-meta">2025<br>PyTorch</div>
+                <div>
+                    <h3 class="project-title">Autoencoders &amp; VAE <span class="arrow">&nearr;</span></h3>
+                    <p class="project-desc">Denoising convolutional autoencoders and variational autoencoders on MNIST. Exploring latent spaces, the reparameterization trick, and generative modeling with modular PyTorch code.</p>
+                    <div class="project-tags">
+                        <span class="tag">VAE</span><span class="tag">Autoencoder</span><span class="tag">Generative</span><span class="tag">Latent Space</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://github.com/Pchambet/Gait-Analysis" class="project-item fade-in" target="_blank" rel="noopener">
+                <div class="project-meta">2024<br>Python</div>
+                <div>
+                    <h3 class="project-title">Clinical Gait Analysis <span class="arrow">&nearr;</span></h3>
+                    <p class="project-desc">Unsupervised analysis of clinical gait data: Dynamic Time Warping, K-Medoids clustering, and 3D feature engineering to study speed constraint effects on knee flexion patterns.</p>
+                    <div class="project-tags">
+                        <span class="tag">DTW</span><span class="tag">K-Medoids</span><span class="tag">Time Series</span><span class="tag">Clinical</span>
+                    </div>
+                </div>
+            </a>
+
+        </section>
+
+        <!-- Skills -->
+        <section id="skills">
+            <p class="section-label">Skills</p>
+            <div class="skills-grid">
+                <div class="skill-row fade-in">
+                    <div class="skill-label">ML / Deep Learning</div>
+                    <div class="skill-value">PyTorch, TensorFlow, scikit-learn, Hugging Face, XGBoost</div>
+                </div>
+                <div class="skill-row fade-in">
+                    <div class="skill-label">Data &amp; Visualization</div>
+                    <div class="skill-value">NumPy, pandas, Matplotlib, Seaborn, Plotly, Streamlit</div>
+                </div>
+                <div class="skill-row fade-in">
+                    <div class="skill-label">Languages</div>
+                    <div class="skill-value">Python, SQL, Java, LaTeX</div>
+                </div>
+                <div class="skill-row fade-in">
+                    <div class="skill-label">Engineering</div>
+                    <div class="skill-value">Git, Docker, uv, GitHub Actions, Jupyter, Linux</div>
+                </div>
+                <div class="skill-row fade-in">
+                    <div class="skill-label">Vision &amp; NLP</div>
+                    <div class="skill-value">OpenCV, NLTK, Gensim, Transformers</div>
+                </div>
+                <div class="skill-row fade-in">
+                    <div class="skill-label">Human Languages</div>
+                    <div class="skill-value">French (native), English (fluent), Japanese (basic)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education -->
+        <section id="education">
+            <p class="section-label">Education</p>
+
+            <div class="edu-item fade-in">
+                <div class="edu-year">2022 &mdash; 2026</div>
+                <div class="edu-school">Télécom SudParis &mdash; Institut Polytechnique de Paris</div>
+                <div class="edu-detail">Master of Engineering, Data Science &amp; Machine Learning</div>
+            </div>
+
+            <div class="edu-item fade-in">
+                <div class="edu-year">2019 &mdash; 2022</div>
+                <div class="edu-school">Classes Préparatoires (CPGE)</div>
+                <div class="edu-detail">Mathematics &amp; Physics intensive program &mdash; Annecy, France</div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <div class="footer-note fade-in">
+            Built with plain HTML &amp; CSS. Design loosely inspired by
+            <a href="https://brittanychiang.com" target="_blank" rel="noopener">Brittany Chiang</a>.
+            All content &copy; 2026 Pierre Chambet.
         </div>
-    </section>
 
-    <!-- Projects -->
-    <section>
-        <h2>Projects</h2>
-        <p class="section-desc">Selected work — each built to be understood, not just to run.</p>
-        <div class="projects-grid">
-
-            <div class="project-card">
-                <h3><a href="https://github.com/Pchambet/mushroom-project">Mushroom Toxicity Classifier</a></h3>
-                <p>Full ML pipeline on categorical data: MCA encoding, hierarchical clustering, LDA classification, model comparison. Includes an interactive dashboard to explore every step of the analysis.</p>
-                <a class="demo-link" href="https://pchambet-mushroom-project.streamlit.app/">Live demo &rarr;</a>
-                <div class="project-tags">
-                    <span>scikit-learn</span><span>Streamlit</span><span>MCA</span><span>Clustering</span><span>CI/CD</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <h3><a href="https://github.com/Pchambet/cnn-explainability-workshop">CNN Explainability Workshop</a></h3>
-                <p>What do CNNs actually learn? Filter visualization on VGG16, Grad-CAM explanations, occlusion sensitivity, a quantitative challenge of CNIL anonymization guidelines, and one-shot face recognition via transfer learning.</p>
-                <div class="project-tags">
-                    <span>TensorFlow</span><span>Grad-CAM</span><span>VGG16</span><span>OpenCV</span><span>XAI</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <h3><a href="https://github.com/Pchambet/Deep-Learning-from-Scratch">Deep Learning from Scratch</a></h3>
-                <p>From a single neuron to convolutional networks on MNIST — 12 notebooks, 3 PDF guides, every gradient derived by hand. Built as a learning-in-public series with accompanying LinkedIn posts.</p>
-                <div class="project-tags">
-                    <span>NumPy</span><span>Backpropagation</span><span>MNIST</span><span>CNN</span><span>From scratch</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <h3><a href="https://github.com/Pchambet/NLP-from-scratch-to-BERT">NLP: From Scratch to BERT</a></h3>
-                <p>The full NLP progression in 4 notebooks: text preprocessing and tokenization, TF-IDF for spam classification, Word2Vec/FastText embeddings, and BERT fine-tuning with Hugging Face.</p>
-                <div class="project-tags">
-                    <span>BERT</span><span>Word2Vec</span><span>Transformers</span><span>NLTK</span><span>Gensim</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <h3><a href="https://github.com/Pchambet/Particle-Filter-Optimal-Transport">Differentiable Particle Filter</a></h3>
-                <p>Research project implementing differentiable particle filtering via entropy-regularized optimal transport. Includes full mathematical proofs and auto-differentiation for parameter estimation.</p>
-                <div class="project-tags">
-                    <span>Optimal Transport</span><span>Bayesian Inference</span><span>Research</span><span>NumPy</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <h3><a href="https://github.com/Pchambet/mnist-latent-space-ae-vae">Autoencoders &amp; VAE on MNIST</a></h3>
-                <p>Denoising convolutional autoencoders and variational autoencoders — exploring latent spaces, the reparameterization trick, and generative modeling. Modular PyTorch code with LaTeX report.</p>
-                <div class="project-tags">
-                    <span>PyTorch</span><span>VAE</span><span>Autoencoder</span><span>Generative</span><span>Latent Space</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <h3><a href="https://github.com/Pchambet/Gait-Analysis">Clinical Gait Analysis</a></h3>
-                <p>Unsupervised analysis of clinical gait data using Dynamic Time Warping, K-Medoids clustering, and feature engineering to study the effect of speed constraints on knee flexion patterns.</p>
-                <div class="project-tags">
-                    <span>DTW</span><span>K-Medoids</span><span>Time Series</span><span>Clinical Data</span>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Skills -->
-    <section>
-        <h2>Skills</h2>
-        <p class="section-desc">Tools and technologies I use regularly.</p>
-        <div class="skills-grid">
-            <div class="skill-group">
-                <h3>ML / DL</h3>
-                <p>PyTorch, TensorFlow, scikit-learn, Hugging Face, XGBoost</p>
-            </div>
-            <div class="skill-group">
-                <h3>Data &amp; Viz</h3>
-                <p>NumPy, pandas, Matplotlib, Seaborn, Plotly, Streamlit</p>
-            </div>
-            <div class="skill-group">
-                <h3>Languages</h3>
-                <p>Python, SQL, Java, LaTeX</p>
-            </div>
-            <div class="skill-group">
-                <h3>Tools</h3>
-                <p>Git, Docker, uv, Jupyter, Linux, GitHub Actions</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Education -->
-    <section>
-        <h2>Education</h2>
-        <div class="about-content">
-            <strong>Télécom SudParis — Institut Polytechnique de Paris</strong> (2022–2026)<br>
-            Master of Engineering, specialization in Data Science &amp; Machine Learning.<br><br>
-            <strong>CPGE — Classes Préparatoires</strong> (2019–2022)<br>
-            Mathematics &amp; Physics intensive preparatory program, Annecy, France.
-        </div>
-    </section>
-
+    </main>
 </div>
 
-<footer>
-    <div class="container">
-        Pierre Chambet &middot; 2026 &middot;
-        <a href="https://github.com/Pchambet">GitHub</a> &middot;
-        <a href="https://www.linkedin.com/in/pierre-chambet-289a5b220/">LinkedIn</a> &middot;
-        <a href="mailto:pierrechambet@gmail.com">pierrechambet@gmail.com</a>
-    </div>
-</footer>
+<script>
+// Scroll-based nav highlighting
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav a');
+
+function updateNav() {
+    const scrollPos = window.scrollY + 120;
+    let current = '';
+    sections.forEach(s => {
+        if (s.offsetTop <= scrollPos) current = s.id;
+    });
+    navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+}
+window.addEventListener('scroll', updateNav, { passive: true });
+
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Subtle spotlight effect following cursor
+const spotlight = document.getElementById('spotlight');
+document.addEventListener('mousemove', (e) => {
+    spotlight.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.07), transparent 80%)`;
+});
+</script>
 
 </body>
 </html>

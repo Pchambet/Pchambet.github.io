@@ -1,707 +1,459 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pierre Chambet — ML & Deep Learning Engineer</title>
-    <meta name="description" content="Pierre Chambet — ML & Deep Learning engineer. Télécom SudParis / Institut Polytechnique de Paris. Portfolio showcasing machine learning, NLP, computer vision and research projects.">
-    <meta name="author" content="Pierre Chambet">
-    <meta name="keywords" content="Pierre Chambet, machine learning, deep learning, NLP, computer vision, data science, Télécom SudParis, portfolio">
-    <link rel="canonical" href="https://pchambet.github.io/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pierre Chambet — decision science for operations</title>
+<meta name="description" content="Pierre Chambet builds decision tools for operations that run on uncertain data: airline fleets, freight, power grids. Forecasting, simulation and optimisation, shipped as working software.">
+<meta name="author" content="Pierre Chambet">
+<link rel="canonical" href="https://pchambet.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pchambet.github.io/">
+<meta property="og:title" content="Pierre Chambet — decision science for operations">
+<meta property="og:description" content="Decision tools for operations that run on uncertain data: airline fleets, freight, power grids.">
+<meta property="og:image" content="https://pchambet.github.io/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pierre Chambet — decision science for operations">
+<meta name="twitter:description" content="Decision tools for operations that run on uncertain data: airline fleets, freight, power grids.">
+<meta name="twitter:image" content="https://pchambet.github.io/og-image.png">
+<meta name="theme-color" content="#f5f7f8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a1422" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%230e1a2b'/><path d='M10 40 C22 38 30 30 54 18' stroke='%235eead4' stroke-width='5' fill='none' stroke-linecap='round'/><path d='M10 40 C22 44 32 44 54 46' stroke='%2364748b' stroke-width='3' fill='none' stroke-linecap='round'/></svg>">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Pierre Chambet",
+  "url": "https://pchambet.github.io/",
+  "jobTitle": "Data scientist",
+  "worksFor": {"@type": "Organization", "name": "SmartFleetOptim", "url": "https://smartfleetoptim.com/"},
+  "alumniOf": {"@type": "CollegeOrUniversity", "name": "Télécom SudParis"},
+  "sameAs": ["https://github.com/Pchambet", "https://www.linkedin.com/in/pierre-chambet/"],
+  "knowsAbout": ["Decision science", "Operations research", "Forecasting", "Conformal prediction", "Causal inference", "Optimal transport", "Python", "SQL"]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f5f7f8;
+  --surface: #ffffff;
+  --ink: #0e1a2b;
+  --slate: #536276;
+  --rule: #d8e0e6;
+  --teal: #0f766e;
+  --teal-band: rgba(15, 118, 110, 0.16);
+  --teal-band-outer: rgba(15, 118, 110, 0.08);
+  --amber: #b45309;
+  --focus: #0f766e;
+  --measure: 40rem;
+  --rail: 11rem;
+  --gap: clamp(1.5rem, 4vw, 3.5rem);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0a1422;
+    --surface: #0f1c2e;
+    --ink: #e4eaf0;
+    --slate: #93a3b6;
+    --rule: #1d2b3d;
+    --teal: #5eead4;
+    --teal-band: rgba(94, 234, 212, 0.20);
+    --teal-band-outer: rgba(94, 234, 212, 0.09);
+    --amber: #f59e0b;
+    --focus: #5eead4;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0a1422;
+  --surface: #0f1c2e;
+  --ink: #e4eaf0;
+  --slate: #93a3b6;
+  --rule: #1d2b3d;
+  --teal: #5eead4;
+  --teal-band: rgba(94, 234, 212, 0.20);
+  --teal-band-outer: rgba(94, 234, 212, 0.09);
+  --amber: #f59e0b;
+  --focus: #5eead4;
+  color-scheme: dark;
+}
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://pchambet.github.io/">
-    <meta property="og:title" content="Pierre Chambet — ML & Deep Learning Engineer">
-    <meta property="og:description" content="ML engineer building systems from first principles. Portfolio of machine learning, NLP, and computer vision projects.">
-    <meta property="og:image" content="https://pchambet.github.io/og-image.png">
-    <meta property="og:locale" content="en_US">
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1.0625rem/1.65 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration-color: var(--teal); text-decoration-thickness: 1.5px; text-underline-offset: 0.2em; }
+a:hover { color: var(--teal); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+h1, h2, h3 { font-family: "IBM Plex Sans Condensed", "IBM Plex Sans", system-ui, sans-serif; font-weight: 600; line-height: 1.15; margin: 0; }
+p { margin: 0 0 1em; }
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 1rem; top: 1rem; background: var(--surface); padding: 0.5rem 0.75rem; z-index: 10; }
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Pierre Chambet — ML & Deep Learning Engineer">
-    <meta name="twitter:description" content="ML engineer building systems from first principles. Portfolio of machine learning, NLP, and computer vision projects.">
-    <meta name="twitter:image" content="https://pchambet.github.io/og-image.png">
+.page { max-width: calc(var(--rail) + var(--gap) + var(--measure) + 14rem); margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); }
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230f172a'/><text x='50' y='70' font-size='60' text-anchor='middle' fill='%235eead4' font-family='system-ui'>P</text></svg>">
+/* Each section: a rail on the left that names it, the content in a reading column. */
+.row { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); column-gap: var(--gap); padding: clamp(2.5rem, 6vw, 4.5rem) 0; border-top: 1px solid var(--rule); }
+.row > .rail { color: var(--slate); font-size: 0.95rem; padding-top: 0.2rem; }
+.row > .rail h2 { font-size: 1.05rem; font-weight: 500; color: var(--slate); font-family: "IBM Plex Sans", system-ui, sans-serif; }
+.col { max-width: var(--measure); }
 
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Pierre Chambet",
-      "url": "https://pchambet.github.io",
-      "jobTitle": "ML & Deep Learning Engineer",
-      "alumniOf": {
-        "@type": "CollegeOrUniversity",
-        "name": "Télécom SudParis — Institut Polytechnique de Paris"
-      },
-      "sameAs": [
-        "https://github.com/Pchambet",
-        "https://www.linkedin.com/in/pierre-chambet/"
-      ],
-      "knowsAbout": ["Machine Learning", "Deep Learning", "NLP", "Computer Vision", "Data Science", "Python", "PyTorch", "TensorFlow"]
-    }
-    </script>
+/* Hero */
+.hero { border-top: 0; padding-top: clamp(3rem, 9vw, 6.5rem); align-items: start; }
+.hero .rail img { width: 100%; max-width: 9rem; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 6px; display: block; filter: grayscale(1); }
+.name { font-size: 1.05rem; font-family: "IBM Plex Sans", system-ui, sans-serif; font-weight: 600; margin-bottom: 1.25rem; letter-spacing: 0.01em; }
+.lede { font-size: clamp(2.1rem, 5.2vw, 3.6rem); line-height: 1.04; letter-spacing: -0.012em; max-width: 15ch; margin-bottom: 1.5rem; }
+.intro { font-size: 1.15rem; color: var(--slate); max-width: 36rem; }
+.intro strong { color: var(--ink); font-weight: 500; }
+.links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin-top: 1.75rem; font-weight: 500; }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+/* The live forecast: the one loud element on the page */
+.live { grid-column: 1 / -1; margin-top: clamp(2.5rem, 6vw, 4rem); }
+.live-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; align-items: baseline; margin-bottom: 0.75rem; }
+.live-head h3 { font-size: clamp(1.25rem, 2.6vw, 1.6rem); font-weight: 500; }
+.live-head .status { color: var(--slate); font-size: 0.95rem; }
+.status .dot { display: inline-block; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--teal); margin-right: 0.45rem; vertical-align: 0.05rem; }
+.status .dot.stale { background: var(--slate); }
+.chart { position: relative; width: 100%; height: clamp(15rem, 34vw, 22rem); }
+.chart svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.chart .axis text { fill: var(--slate); font-size: 12px; font-family: "IBM Plex Sans", system-ui, sans-serif; }
+.chart .grid line { stroke: var(--rule); }
+.chart .band95 { fill: var(--teal-band-outer); }
+.chart .band80 { fill: var(--teal-band); }
+.chart .median { fill: none; stroke: var(--teal); stroke-width: 2.25; }
+.chart .bench { fill: none; stroke: var(--amber); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.chart .label { fill: var(--ink); font-size: 13px; font-family: "IBM Plex Sans", system-ui, sans-serif; }
+.chart .label.muted { fill: var(--slate); }
+.chart .hover line { stroke: var(--slate); stroke-width: 1; }
+.chart .tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 0.45rem 0.65rem; font-size: 0.85rem; line-height: 1.4; white-space: nowrap; transform: translate(-50%, -110%); display: none; box-shadow: 0 6px 18px rgba(14, 26, 43, 0.08); }
+.live-foot { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1rem 2rem; margin-top: 1.25rem; color: var(--slate); font-size: 0.95rem; }
+.live-foot b { display: block; color: var(--ink); font-weight: 600; font-size: 1.35rem; font-family: "IBM Plex Sans Condensed", system-ui, sans-serif; }
+.live-note { color: var(--slate); font-size: 0.95rem; margin-top: 1rem; max-width: var(--measure); }
 
-        :root {
-            --bg: #0f172a;
-            --bg-card: #1e293b;
-            --bg-card-hover: #253348;
-            --text: #e2e8f0;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --accent: #5eead4;
-            --accent-dim: rgba(94, 234, 212, 0.1);
-            --border: #1e293b;
-            --tag-bg: rgba(94, 234, 212, 0.1);
-            --tag-text: #5eead4;
-        }
+/* Work: each project is a question and its answer */
+.work { list-style: none; margin: 0; padding: 0; }
+.work > li { padding: 2.25rem 0; border-bottom: 1px solid var(--rule); }
+.work > li:first-child { padding-top: 0; }
+.work > li:last-child { border-bottom: 0; }
+.work h3 { font-size: 1.45rem; margin-bottom: 0.6rem; }
+.work .answer { margin-bottom: 0.75rem; }
+.work .meta { color: var(--slate); font-size: 0.95rem; margin-bottom: 0.75rem; }
+.work .go { display: flex; gap: 1.25rem; font-weight: 500; }
+.work figure { margin: 1.25rem 0 0; }
+.work figure img { width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 6px; background: #fff; display: block; }
+.work .private { color: var(--slate); }
 
-        html { scroll-behavior: smooth; }
+.more { columns: 2 18rem; column-gap: 2.5rem; margin: 0; padding: 0; list-style: none; }
+.more li { break-inside: avoid; margin-bottom: 1.1rem; }
+.more a { font-weight: 500; }
+.more span { display: block; color: var(--slate); font-size: 0.95rem; }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text-secondary);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
+/* Experience: a real sequence, so dates lead */
+.timeline { list-style: none; margin: 0; padding: 0; }
+.timeline li { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 0.25rem 1.5rem; padding: 0 0 1.75rem; }
+.timeline time { color: var(--slate); font-size: 0.95rem; padding-top: 0.15rem; }
+.timeline h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.3rem; }
+.timeline p { margin: 0; color: var(--slate); }
 
-        a { color: var(--text-secondary); text-decoration: none; transition: color 0.25s; }
-        a:hover { color: var(--accent); }
+.prs { list-style: none; margin: 0; padding: 0; }
+.prs li { padding: 0.55rem 0; border-bottom: 1px solid var(--rule); display: flex; gap: 1rem; justify-content: space-between; align-items: baseline; }
+.prs li:last-child { border-bottom: 0; }
+.prs .repo { font-weight: 500; white-space: nowrap; }
+.prs .what { color: var(--slate); text-align: right; }
 
-        ::selection { background: rgba(94, 234, 212, 0.25); color: var(--text); }
+footer { padding: 2rem 0 3rem; border-top: 1px solid var(--rule); color: var(--slate); font-size: 0.9rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; }
+.theme-toggle { font: inherit; color: inherit; background: none; border: 1px solid var(--rule); border-radius: 999px; padding: 0.2rem 0.8rem; cursor: pointer; }
 
-        /* ── Layout ── */
-        .layout {
-            display: flex;
-            max-width: 1200px;
-            margin: 0 auto;
-            min-height: 100vh;
-            padding: 0 24px;
-        }
-
-        /* ── Sidebar ── */
-        .sidebar {
-            position: sticky;
-            top: 0;
-            width: 45%;
-            max-height: 100vh;
-            padding: 96px 48px 96px 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .photo-wrapper {
-            position: relative;
-            width: 180px;
-            height: 220px;
-            margin-bottom: 32px;
-        }
-        .photo-wrapper::before {
-            content: '';
-            position: absolute;
-            inset: 10px -10px -10px 10px;
-            border: 2px solid var(--accent);
-            border-radius: 14px;
-            opacity: 0.4;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .photo-wrapper:hover::before {
-            inset: 14px -14px -14px 14px;
-            opacity: 0.7;
-        }
-        .photo-wrapper::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            border-radius: 12px;
-            background: linear-gradient(
-                160deg,
-                transparent 40%,
-                rgba(94, 234, 212, 0.08) 100%
-            );
-            pointer-events: none;
-            z-index: 2;
-            transition: opacity 0.4s;
-        }
-        .photo-wrapper:hover::after {
-            opacity: 0;
-        }
-        .photo {
-            width: 100%;
-            height: 100%;
-            border-radius: 12px;
-            object-fit: cover;
-            object-position: center 15%;
-            position: relative;
-            z-index: 1;
-            filter: contrast(1.03) brightness(0.95);
-            transition: filter 0.5s, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .photo-wrapper:hover .photo {
-            filter: contrast(1.05) brightness(1);
-            transform: scale(1.02);
-        }
-
-        .sidebar h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin-bottom: 8px;
-        }
-
-        .sidebar .title {
-            font-size: 1.05rem;
-            font-weight: 500;
-            color: var(--text);
-            margin-bottom: 16px;
-        }
-
-        .sidebar .bio {
-            font-size: 0.92rem;
-            line-height: 1.65;
-            max-width: 320px;
-            margin-bottom: 40px;
-        }
-
-        /* ── Nav ── */
-        .nav { list-style: none; margin-bottom: auto; }
-        .nav li { margin-bottom: 8px; }
-        .nav a {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
-            padding: 6px 0;
-            transition: color 0.25s;
-        }
-        .nav a::before {
-            content: '';
-            display: inline-block;
-            width: 32px;
-            height: 1px;
-            background: var(--text-muted);
-            transition: width 0.25s, background 0.25s;
-        }
-        .nav a:hover, .nav a.active {
-            color: var(--text);
-        }
-        .nav a:hover::before, .nav a.active::before {
-            width: 64px;
-            background: var(--text);
-        }
-
-        /* ── Social links ── */
-        .socials {
-            display: flex;
-            gap: 20px;
-            padding-top: 32px;
-        }
-        .socials a {
-            color: var(--text-muted);
-            transition: color 0.25s;
-        }
-        .socials a:hover { color: var(--text); }
-        .socials svg { width: 22px; height: 22px; }
-
-        /* ── Main content ── */
-        .content {
-            width: 55%;
-            padding: 96px 0 96px 24px;
-        }
-
-        .content section {
-            margin-bottom: 96px;
-            scroll-margin-top: 80px;
-        }
-
-        .section-label {
-            display: none;
-        }
-
-        /* ── About ── */
-        .about p {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            margin-bottom: 16px;
-        }
-        .about p a {
-            color: var(--text);
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        .about p a:hover { color: var(--accent); }
-        .about strong { color: var(--text); font-weight: 500; }
-
-        /* ── Project cards ── */
-        .project-item {
-            display: grid;
-            grid-template-columns: 100px 1fr;
-            gap: 20px;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 0 -20px;
-            transition: all 0.25s;
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-        }
-        .project-item:hover {
-            background: rgba(94, 234, 212, 0.03);
-            box-shadow: inset 0 1px 0 0 rgba(94, 234, 212, 0.05);
-        }
-        .project-item:hover .project-title { color: var(--accent); }
-
-        .project-meta {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            padding-top: 6px;
-            line-height: 1.6;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-        }
-
-        .project-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 6px;
-            transition: color 0.25s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .project-title .arrow {
-            font-size: 0.85rem;
-            transition: transform 0.25s;
-            display: inline-block;
-        }
-        .project-item:hover .project-title .arrow {
-            transform: translate(3px, -3px);
-        }
-
-        .project-desc {
-            font-size: 0.87rem;
-            line-height: 1.65;
-            margin-bottom: 12px;
-        }
-
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        .tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 500;
-            padding: 4px 12px;
-            border-radius: 999px;
-            background: var(--tag-bg);
-            color: var(--tag-text);
-        }
-
-        .demo-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-        .demo-badge svg { width: 14px; height: 14px; }
-
-        /* ── Skills ── */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .skill-row {
-            padding: 16px 20px;
-            border-radius: 8px;
-            transition: background 0.25s;
-        }
-        .skill-row:hover {
-            background: rgba(94, 234, 212, 0.03);
-        }
-        .skill-label {
-            font-size: 0.72rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-        .skill-value {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* ── Education ── */
-        .edu-item {
-            padding: 20px;
-            border-radius: 8px;
-            margin: 0 -20px 8px;
-            transition: background 0.25s;
-        }
-        .edu-item:hover {
-            background: rgba(94, 234, 212, 0.03);
-        }
-        .edu-year {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-            margin-bottom: 4px;
-        }
-        .edu-school {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 2px;
-        }
-        .edu-detail {
-            font-size: 0.87rem;
-            color: var(--text-secondary);
-        }
-
-        /* ── Scroll fade-in ── */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ── Footer ── */
-        .footer-note {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            line-height: 1.65;
-            padding-bottom: 48px;
-        }
-        .footer-note a { color: var(--text-secondary); font-weight: 500; }
-        .footer-note a:hover { color: var(--accent); }
-
-        /* ── Spotlight cursor effect ── */
-        .spotlight {
-            pointer-events: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 0;
-            transition: opacity 0.3s;
-        }
-        .layout { position: relative; z-index: 1; }
-
-        /* ── Responsive ── */
-        @media (max-width: 900px) {
-            .layout {
-                flex-direction: column;
-            }
-            .sidebar {
-                position: relative;
-                width: 100%;
-                max-height: none;
-                padding: 60px 0 20px;
-            }
-            .nav { display: none; }
-            .content {
-                width: 100%;
-                padding: 20px 0 60px;
-            }
-            .content section { margin-bottom: 64px; }
-            .section-label {
-                display: block;
-                font-size: 0.78rem;
-                font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 0.1em;
-                color: var(--text);
-                margin-bottom: 32px;
-                position: sticky;
-                top: 0;
-                padding: 16px 0;
-                background: var(--bg);
-                z-index: 2;
-            }
-            .photo-wrapper { width: 140px; height: 170px; margin-bottom: 24px; }
-            .sidebar h1 { font-size: 2.2rem; }
-            .project-item { grid-template-columns: 1fr; gap: 4px; }
-            .project-meta { padding-top: 0; }
-            .skills-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+@media (max-width: 860px) {
+  .row { grid-template-columns: minmax(0, 1fr); row-gap: 1rem; }
+  .hero .rail { order: 2; }
+  .hero .rail img { max-width: 6.5rem; }
+  .hero .col { order: 1; }
+  .live { order: 3; }
+}
+@media (max-width: 520px) {
+  .timeline li { grid-template-columns: minmax(0, 1fr); }
+  .prs li { flex-direction: column; gap: 0.1rem; }
+  .prs .what { text-align: left; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .chart .median { stroke-dasharray: var(--len, 0); stroke-dashoffset: var(--len, 0); animation: draw 1.4s ease-out 0.2s forwards; }
+  .chart .band80, .chart .band95 { opacity: 0; animation: fade 0.9s ease-out 0.9s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes fade { to { opacity: 1; } }
+}
+</style>
 </head>
 <body>
+<a class="skip" href="#work">Skip to work</a>
+<main class="page">
 
-<div class="spotlight" id="spotlight"></div>
+  <section class="row hero" aria-labelledby="lede">
+    <div class="rail">
+      <img src="assets/portrait.jpg" alt="Portrait of Pierre Chambet" width="512" height="640">
+    </div>
+    <div class="col">
+      <p class="name">Pierre Chambet</p>
+      <h1 class="lede" id="lede">Decisions for operations that run on uncertain data.</h1>
+      <p class="intro">I forecast honestly, simulate what can go wrong and optimise what you control, then ship it as software people use. <strong>Airline fleets, freight, power grids.</strong> Founder of SmartFleetOptim, previously on the Air France Network team, engineer from Télécom SudParis.</p>
+      <p class="links">
+        <a href="https://github.com/Pchambet">GitHub</a>
+        <a href="https://www.linkedin.com/in/pierre-chambet/">LinkedIn</a>
+        <a href="mailto:pierrechambet@gmail.com">pierrechambet@gmail.com</a>
+      </p>
+    </div>
 
-<div class="layout">
+    <div class="live" id="live" aria-labelledby="live-title">
+      <div class="live-head">
+        <h3 id="live-title">Tomorrow’s electricity demand in France, forecast this morning</h3>
+        <p class="status" id="live-status"><span class="dot stale"></span>Loading the latest run</p>
+      </div>
+      <div class="chart" id="chart" role="img" aria-label="Fan chart of tomorrow's French electricity demand with 80% and 95% prediction intervals"></div>
+      <div class="live-foot" id="live-foot"></div>
+      <p class="live-note">Median with 80% and 95% prediction intervals from <a href="https://github.com/Pchambet/gridcast">gridcast</a>. A scheduled job re-runs the model every day on public RTE and Open-Meteo data and scores every past forecast in the open. <a href="https://pchambet.github.io/gridcast/">How it works</a></p>
+    </div>
+  </section>
 
-    <!-- ─── Sidebar ─── -->
-    <header class="sidebar">
-        <div class="photo-wrapper">
-            <img src="photo.png" alt="Pierre Chambet" class="photo">
-        </div>
-        <h1>Pierre Chambet</h1>
-        <p class="title">ML &amp; Deep Learning Engineer</p>
-        <p class="bio">I build machine learning systems from first principles. My focus is bridging research-grade methods with real-world applications.</p>
+  <section class="row" id="work" aria-labelledby="work-title">
+    <div class="rail"><h2 id="work-title">Selected work</h2></div>
+    <div class="col">
+      <ol class="work">
+        <li>
+          <div>
+            <h3>Where should an airline add turnaround buffer to stop delays spreading?</h3>
+            <p class="answer">On 7 million US flights, 40% of cause-coded delay minutes are reactionary: the aircraft came in late. A turn absorbs delay up to a threshold, then passes it on almost minute for minute. Placed by a scenario linear program, a buffer minute avoids 1.7 times as much delay as uniform padding on held-out days; padding the most-delayed turns does worse than uniform.</p>
+            <p class="meta">dbt and DuckDB over BTS data, time zones done right, a hinge propagation model, matched contagion estimates, an LP solved with HiGHS.</p>
+            <p class="go"><a href="https://github.com/Pchambet/delay-contagion">Code</a><a href="https://pchambet.github.io/delay-contagion/">Report</a></p>
+          </div>
+          <figure><img src="assets/work/delay-contagion.png" alt="Delay avoided against buffer minutes: the LP-optimised line rises fastest, uniform padding and the greedy rule below" width="960" height="606" loading="lazy"></figure>
+        </li>
+        <li>
+          <div>
+            <h3>Can a demand forecast publish uncertainty bands that stay honest through a crisis?</h3>
+            <p class="answer">On average, yes: over 38,732 out-of-sample hours the 80% and 95% intervals cover 80.0% and 95.0% of French demand. Month to month only partly: a frozen interval is on target 12% of the time, rolling recalibration 50%. Compared fairly, RTE's own point forecast is more accurate, and the page says so. The forecast runs again every day in public.</p>
+            <p class="meta">LightGBM quantiles, conformalized quantile regression with adaptive conformal inference, a strict day-ahead information set, a scheduled GitHub Actions job.</p>
+            <p class="go"><a href="https://github.com/Pchambet/gridcast">Code</a><a href="https://pchambet.github.io/gridcast/">Report</a></p>
+          </div>
+          <figure><img src="assets/work/gridcast.png" alt="Trailing 30-day interval coverage from 2022 to 2026 for three calibration methods, with the energy crisis shaded" width="960" height="714" loading="lazy"></figure>
+        </li>
+        <li>
+          <div>
+            <h3>Who should get the marketing e-mail?</h3>
+            <p class="answer">On a 64,000-customer randomised test, the honest answer is everyone: blanket sending earns $155 per 1,000 customers, and the best uplift procedure chosen out of sample falls short of it in 48 of 50 splits. Scored on its own data, the same contest would have promised a gain. At 14 million users the picture changes, and the analysis shows why.</p>
+            <p class="meta">Experiment readout with CUPED and Holm, S-, T-, X- and doubly robust learners, off-policy value with confidence intervals, Criteo at scale in DuckDB.</p>
+            <p class="go"><a href="https://github.com/Pchambet/uplift-targeting">Code</a><a href="https://pchambet.github.io/uplift-targeting/">Report</a></p>
+          </div>
+          <figure><img src="assets/work/uplift-targeting.png" alt="Incremental profit against share of customers e-mailed for uplift, response and random policies, and Criteo uplift curves" width="960" height="416" loading="lazy"></figure>
+        </li>
+        <li>
+          <div>
+            <h3>How much spare-parts stock buys a 95% fill rate when demand is mostly zeros?</h3>
+            <p class="answer">On 1,046 car-part series, the method with the best forecast error (SES) needs 39% more stock than a LightGBM quantile model to serve 95% of demand, out of sample (95% CI 29–51%). Pinball loss ranks methods the way the shelf does; MASE does not.</p>
+            <p class="meta">Croston, SBA, TSB, bootstrap and global LightGBM; order-up-to simulation; Sherbrooke-style budget allocation.</p>
+            <p class="go"><a href="https://github.com/Pchambet/spare-parts-inventory">Code</a><a href="https://pchambet.github.io/spare-parts-inventory/">Report</a></p>
+          </div>
+          <figure><img src="assets/work/spare-parts-inventory.png" alt="Fill rate against average stock for each forecasting method: LightGBM reaches 95% with 9.2 months of stock, SES needs 12.8" width="960" height="432" loading="lazy"></figure>
+        </li>
+        <li>
+          <div>
+            <h3>Will a corrosion-risk model hold on aircraft it has never seen?</h3>
+            <p class="answer">Adversarial validation showed the test fleet was a different population (AUC 0.86). Validating on test-like aircraft set the one parameter that mattered, a shrinkage of α = 0.72 that grouped cross-validation said was useless. 22nd on the public leaderboard, 6th on the private one, 2nd overall at the Airbus × IBM × AWS hackathon.</p>
+            <p class="meta">Machine learning lead. LightGBM, grouped and adversarial validation, calibration, paired bootstrap.</p>
+            <p class="go"><a href="https://github.com/Pchambet/AIRBUS-IBM-HACKATHON-2026">Code</a><a href="https://pchambet.github.io/AIRBUS-IBM-HACKATHON-2026/">Report</a></p>
+          </div>
+          <figure><img src="assets/work/airbus.png" alt="Brier score against shrinkage: in-distribution validation prefers no shrinkage, test-like aircraft prefer alpha 0.72" width="960" height="500" loading="lazy"></figure>
+        </li>
+        <li>
+          <div>
+            <h3>How many reserve aircraft should an airline hold, of which type, at which base?</h3>
+            <p class="answer">SmartFleetOptim stress-tests spare-fleet plans across disruption, demand and delivery-delay scenarios, and compares them on tail risk rather than on a single forecast. I ran technical sessions with the operations and data teams of Finnair, SWISS and Air Canada on their own public fleet data.</p>
+            <p class="meta">Founder and lead engineer. Python engine, FastAPI, React, deployed on a cloud VM. Profiling cut an engine run from 13.6 s to 1.3 s.</p>
+            <p class="go"><a href="https://smartfleetoptim.com/">smartfleetoptim.com</a><span class="private">Code is private</span></p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
 
-        <nav>
-            <ul class="nav">
-                <li><a href="#about" class="active">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#education">Education</a></li>
-            </ul>
-        </nav>
+  <section class="row" aria-labelledby="more-title">
+    <div class="rail"><h2 id="more-title">More projects</h2></div>
+    <div class="col">
+      <ul class="more">
+        <li><a href="https://github.com/Pchambet/freightsight-landed-cost">FreightSight</a><span>Landed-cost allocation for importers: a two-pass Decimal engine, Postgres row-level security, an Odoo connector.</span></li>
+        <li><a href="https://github.com/Pchambet/consolidation-erp-mcp">Three-ERP consolidation</a><span>Odoo, an accounting FEC file and a warehouse API reconciled in DuckDB; 22 planted discrepancies, all found, none extra, queried through an MCP server.</span></li>
+        <li><a href="https://github.com/Pchambet/fiduciaire-agent">Fiduciary agent</a><span>Swiss QR-bills and camt.053 statements: code builds every entry, an agent classifies only what no rule covers, a person approves.</span></li>
+        <li><a href="https://github.com/Pchambet/Helios-Quant-Core">Helios</a><span>Walk-forward battery arbitrage on French day-ahead prices with model predictive control and Wasserstein-robust optimisation.</span></li>
+        <li><a href="https://github.com/Pchambet/Particle-Filter-Optimal-Transport">Differentiable particle filter</a><span>Optimal-transport resampling in PyTorch, checked against exact Kalman gradients.</span></li>
+        <li><a href="https://github.com/Pchambet/facebook100-social-structure">Facebook100 social structure</a><span>Homophily, link prediction and communities on all 100 campus graphs.</span></li>
+        <li><a href="https://github.com/Pchambet/Gait-Analysis">Gait at five walking speeds</a><span>2,544 knee cycles from 52 adults: re-identification, variance components and grouped cross-validation.</span></li>
+        <li><a href="https://github.com/Pchambet/functional-data-clustering">Functional data clustering</a><span>Clustering curves and covariates together, in R; what silhouette tuning costs in ARI.</span></li>
+        <li><a href="https://github.com/Pchambet/hmm-from-scratch">Hidden Markov models from scratch</a><span>Do hidden states earn their parameters? Rain spells and unseen-speaker speech, judged on held-out data.</span></li>
+        <li><a href="https://github.com/Pchambet/mushroom-project">Mushroom toxicity</a><span>What a multiple correspondence analysis keeps and loses, with honest shuffled cross-validation.</span></li>
+        <li><a href="https://github.com/Pchambet/NLP-from-scratch-to-BERT">From bag-of-words to BERT</a><span>Every rung of the NLP ladder on identical splits, with label budgets.</span></li>
+        <li><a href="https://github.com/Pchambet/mnist-case-study">MLP against CNN on MNIST</a><span>Paired tests, calibration, selective prediction and shift robustness.</span></li>
+      </ul>
+    </div>
+  </section>
 
-        <div class="socials">
-            <a href="https://github.com/Pchambet" aria-label="GitHub" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-            </a>
-            <a href="https://www.linkedin.com/in/pierre-chambet/" aria-label="LinkedIn" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            </a>
-            <a href="mailto:pierrechambet@gmail.com" aria-label="Email">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/></svg>
-            </a>
-        </div>
-    </header>
+  <section class="row" aria-labelledby="exp-title">
+    <div class="rail"><h2 id="exp-title">Experience</h2></div>
+    <div class="col">
+      <ol class="timeline" reversed>
+        <li><time>2026 – now</time><div><h3>SmartFleetOptim, founder and lead engineer</h3><p>Airline spare-fleet strategy under uncertainty, from discovery calls with airlines to a production deployment. Supported by IMT Starter.</p></div></li>
+        <li><time>June 2026</time><div><h3>Airbus × IBM × AWS hackathon, machine learning lead</h3><p>Corrosion-risk model. Adversarial validation exposed a train/test shift; calibrated probabilities moved the team from 22nd on the public leaderboard to 6th on the private one, 2nd overall.</p></div></li>
+        <li><time>2025</time><div><h3>NAIST, Japan, visiting research intern</h3><p>Self-directed review of optimal transport for deep learning; workshop and ICLR paper review for a computational systems biology lab.</p></div></li>
+        <li><time>2024 – 2025</time><div><h3>Air France Network, data analyst, program regulation</h3><p>Built the Python decision-support tool and Power BI dashboard that Network management used to allocate spare aircraft across long- and medium-haul operations.</p></div></li>
+        <li><time>2026</time><div><h3>Télécom SudParis, Diplôme d’Ingénieur</h3><p>Data analysis and pattern classification. MSc-equivalent engineering degree.</p></div></li>
+      </ol>
+    </div>
+  </section>
 
-    <!-- ─── Content ─── -->
-    <main class="content">
+  <section class="row" aria-labelledby="oss-title">
+    <div class="rail"><h2 id="oss-title">Open source</h2></div>
+    <div class="col">
+      <p>Small fixes, merged upstream, in libraries I use.</p>
+      <ul class="prs">
+        <li><a class="repo" href="https://github.com/PythonOT/POT/pull/798">POT</a><span class="what">Wasserstein distance exponent in the user guide</span></li>
+        <li><a class="repo" href="https://github.com/jacobgil/pytorch-grad-cam/pull/577">pytorch-grad-cam</a><span class="what">Matplotlib 3.8 crash in factorization plots</span></li>
+        <li><a class="repo" href="https://github.com/jacobgil/pytorch-grad-cam/pull/578">pytorch-grad-cam</a><span class="what">Crash when model.eval() does not return self</span></li>
+        <li><a class="repo" href="https://github.com/MaxHalford/prince/pull/201">prince</a><span class="what">MCA docstrings</span></li>
+        <li><a class="repo" href="https://github.com/gradio-app/gradio/pull/12922">gradio</a><span class="what">Image types documentation</span></li>
+        <li><a class="repo" href="https://github.com/gradio-app/gradio/pull/12923">gradio</a><span class="what">Slider patterns documentation</span></li>
+      </ul>
+    </div>
+  </section>
 
-        <!-- About -->
-        <section id="about">
-            <p class="section-label">About</p>
-            <div class="about">
-                <p class="fade-in">
-                    I'm currently completing my <strong>Master's degree at
-                    <a href="https://www.telecom-sudparis.eu/" target="_blank" rel="noopener">Télécom SudParis</a></strong>
-                    (Institut Polytechnique de Paris), specializing in data science and applied mathematics.
-                    My work spans <strong>computer vision</strong>, <strong>NLP</strong>,
-                    <strong>probabilistic modeling</strong>, and <strong>mathematical optimization</strong>.
-                </p>
-                <p class="fade-in">
-                    I don't just run <code style="font-family:'JetBrains Mono',monospace; font-size:0.85em; color:var(--text); background:var(--bg-card); padding:2px 6px; border-radius:4px;">.fit()</code>.
-                    I build the thing, understand every gradient, and then trust it.
-                    From implementing backpropagation by hand in NumPy to fine-tuning BERT on real data,
-                    I care about what happens between the math and the result.
-                </p>
-                <p class="fade-in">
-                    When I'm not training models, you'll find me trail running in the Alps,
-                    playing jazz piano, or planning the next mountaineering trip.
-                </p>
-            </div>
-        </section>
+  <section class="row" aria-labelledby="teach-title">
+    <div class="rail"><h2 id="teach-title">Teaching</h2></div>
+    <div class="col">
+      <p><a href="https://github.com/Pchambet/Deep-Learning-from-Scratch">Deep Learning from Scratch</a> rebuilds neural networks from a single NumPy neuron to convolutional networks, every gradient derived by hand, published as an English series on LinkedIn with notebooks and PDF guides.</p>
+      <p>My <a href="https://github.com/Pchambet/Particle-Filter-Optimal-Transport/tree/main/notes">optimal transport notes</a> from NAIST go from Monge and Kantorovich to Wasserstein generative models.</p>
+    </div>
+  </section>
 
-        <!-- Projects -->
-        <section id="projects">
-            <p class="section-label">Projects</p>
-
-            <a href="https://github.com/Pchambet/mushroom-project" class="project-item fade-in" target="_blank" rel="noopener">
-                <div class="project-meta">2026<br>Python</div>
-                <div>
-                    <h3 class="project-title">Mushroom Toxicity Classifier <span class="arrow">&nearr;</span></h3>
-                    <div class="demo-badge">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                        <a href="https://pchambet-mushroom-project.streamlit.app/" onclick="event.stopPropagation()">Live demo</a>
-                    </div>
-                    <p class="project-desc">End-to-end ML pipeline on categorical data: MCA encoding, hierarchical clustering, LDA classification, model benchmarking. Interactive Streamlit dashboard, CI/CD via GitHub Actions, Makefile-orchestrated pipeline.</p>
-                    <div class="project-tags">
-                        <span class="tag">scikit-learn</span><span class="tag">Streamlit</span><span class="tag">MCA</span><span class="tag">CI/CD</span><span class="tag">Makefile</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="https://github.com/Pchambet/cnn-explainability-workshop" class="project-item fade-in" target="_blank" rel="noopener">
-                <div class="project-meta">2026<br>TensorFlow</div>
-                <div>
-                    <h3 class="project-title">CNN Explainability Workshop <span class="arrow">&nearr;</span></h3>
-                    <p class="project-desc">What do CNNs actually learn? Filter visualization on VGG16, Grad-CAM heatmaps, occlusion sensitivity, a quantitative challenge of CNIL anonymization guidelines, and one-shot face recognition via transfer learning.</p>
-                    <div class="project-tags">
-                        <span class="tag">Grad-CAM</span><span class="tag">VGG16</span><span class="tag">OpenCV</span><span class="tag">XAI</span><span class="tag">Transfer Learning</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="https://github.com/Pchambet/Deep-Learning-from-Scratch" class="project-item fade-in" target="_blank" rel="noopener">
-                <div class="project-meta">2025<br>NumPy</div>
-                <div>
-                    <h3 class="project-title">Deep Learning from Scratch <span class="arrow">&nearr;</span></h3>
-                    <p class="project-desc">From a single neuron to convolutional networks on MNIST &mdash; 12 notebooks, 3 PDF guides, every gradient derived by hand. Built as a learning-in-public series with accompanying LinkedIn posts.</p>
-                    <div class="project-tags">
-                        <span class="tag">Backpropagation</span><span class="tag">MNIST</span><span class="tag">CNN</span><span class="tag">From scratch</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="https://github.com/Pchambet/NLP-from-scratch-to-BERT" class="project-item fade-in" target="_blank" rel="noopener">
-                <div class="project-meta">2026<br>NLP</div>
-                <div>
-                    <h3 class="project-title">NLP: From Scratch to BERT <span class="arrow">&nearr;</span></h3>
-                    <p class="project-desc">The full NLP progression in 4 notebooks: text preprocessing, Bag-of-Words &amp; TF-IDF for spam classification, Word2Vec/FastText embeddings, and BERT fine-tuning with Hugging Face Transformers.</p>
-                    <div class="project-tags">
-                        <span class="tag">BERT</span><span class="tag">Word2Vec</span><span class="tag">Transformers</span><span class="tag">Gensim</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="https://github.com/Pchambet/Particle-Filter-Optimal-Transport" class="project-item fade-in" target="_blank" rel="noopener">
-                <div class="project-meta">2024<br>Research</div>
-                <div>
-                    <h3 class="project-title">Differentiable Particle Filter <span class="arrow">&nearr;</span></h3>
-                    <p class="project-desc">Research project implementing differentiable particle filtering via entropy-regularized optimal transport. Full mathematical proofs and auto-differentiation for parameter estimation.</p>
-                    <div class="project-tags">
-                        <span class="tag">Optimal Transport</span><span class="tag">Bayesian</span><span class="tag">Mathematics</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="https://github.com/Pchambet/mnist-latent-space-ae-vae" class="project-item fade-in" target="_blank" rel="noopener">
-                <div class="project-meta">2025<br>PyTorch</div>
-                <div>
-                    <h3 class="project-title">Autoencoders &amp; VAE <span class="arrow">&nearr;</span></h3>
-                    <p class="project-desc">Denoising convolutional autoencoders and variational autoencoders on MNIST. Exploring latent spaces, the reparameterization trick, and generative modeling with modular PyTorch code.</p>
-                    <div class="project-tags">
-                        <span class="tag">VAE</span><span class="tag">Autoencoder</span><span class="tag">Generative</span><span class="tag">Latent Space</span>
-                    </div>
-                </div>
-            </a>
-
-            <a href="https://github.com/Pchambet/Gait-Analysis" class="project-item fade-in" target="_blank" rel="noopener">
-                <div class="project-meta">2024<br>Python</div>
-                <div>
-                    <h3 class="project-title">Clinical Gait Analysis <span class="arrow">&nearr;</span></h3>
-                    <p class="project-desc">Unsupervised analysis of clinical gait data: Dynamic Time Warping, K-Medoids clustering, and 3D feature engineering to study speed constraint effects on knee flexion patterns.</p>
-                    <div class="project-tags">
-                        <span class="tag">DTW</span><span class="tag">K-Medoids</span><span class="tag">Time Series</span><span class="tag">Clinical</span>
-                    </div>
-                </div>
-            </a>
-
-        </section>
-
-        <!-- Skills -->
-        <section id="skills">
-            <p class="section-label">Skills</p>
-            <div class="skills-grid">
-                <div class="skill-row fade-in">
-                    <div class="skill-label">ML / Deep Learning</div>
-                    <div class="skill-value">PyTorch, TensorFlow, scikit-learn, Hugging Face, XGBoost</div>
-                </div>
-                <div class="skill-row fade-in">
-                    <div class="skill-label">Data &amp; Visualization</div>
-                    <div class="skill-value">NumPy, pandas, Matplotlib, Seaborn, Plotly, Streamlit</div>
-                </div>
-                <div class="skill-row fade-in">
-                    <div class="skill-label">Languages</div>
-                    <div class="skill-value">Python, SQL, Java, LaTeX</div>
-                </div>
-                <div class="skill-row fade-in">
-                    <div class="skill-label">Engineering</div>
-                    <div class="skill-value">Git, Docker, uv, GitHub Actions, Jupyter, Linux</div>
-                </div>
-                <div class="skill-row fade-in">
-                    <div class="skill-label">Vision &amp; NLP</div>
-                    <div class="skill-value">OpenCV, NLTK, Gensim, Transformers</div>
-                </div>
-                <div class="skill-row fade-in">
-                    <div class="skill-label">Human Languages</div>
-                    <div class="skill-value">French (native), English (fluent), Japanese (basic)</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Education -->
-        <section id="education">
-            <p class="section-label">Education</p>
-
-            <div class="edu-item fade-in">
-                <div class="edu-year">2022 &mdash; 2026</div>
-                <div class="edu-school">Télécom SudParis &mdash; Institut Polytechnique de Paris</div>
-                <div class="edu-detail">Master of Engineering, Data Science &amp; Machine Learning</div>
-            </div>
-
-            <div class="edu-item fade-in">
-                <div class="edu-year">2019 &mdash; 2022</div>
-                <div class="edu-school">Classes Préparatoires (CPGE)</div>
-                <div class="edu-detail">Mathematics &amp; Physics intensive program &mdash; Annecy, France</div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <div class="footer-note fade-in">
-            Built with plain HTML &amp; CSS. Design loosely inspired by
-            <a href="https://brittanychiang.com" target="_blank" rel="noopener">Brittany Chiang</a>.
-            All content &copy; 2026 Pierre Chambet.
-        </div>
-
-    </main>
-</div>
+  <footer>
+    <span>Pierre Chambet, Paris. Open to roles abroad.</span>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch colour theme">Dark theme</button>
+  </footer>
+</main>
 
 <script>
-// Scroll-based nav highlighting
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav a');
+(() => {
+  // Theme: follow the system unless the visitor picked one; the choice is a per-visitor convenience.
+  const root = document.documentElement;
+  const btn = document.getElementById('theme-toggle');
+  const sysDark = () => matchMedia('(prefers-color-scheme: dark)').matches;
+  const current = () => root.dataset.theme || (sysDark() ? 'dark' : 'light');
+  const paint = () => { btn.textContent = current() === 'dark' ? 'Light theme' : 'Dark theme'; };
+  try { const saved = localStorage.getItem('theme'); if (saved) root.dataset.theme = saved; } catch (e) {}
+  paint();
+  btn.addEventListener('click', () => {
+    root.dataset.theme = current() === 'dark' ? 'light' : 'dark';
+    try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+    paint();
+  });
+})();
 
-function updateNav() {
-    const scrollPos = window.scrollY + 120;
-    let current = '';
-    sections.forEach(s => {
-        if (s.offsetTop <= scrollPos) current = s.id;
+(() => {
+  const chart = document.getElementById('chart');
+  const status = document.getElementById('live-status');
+  const foot = document.getElementById('live-foot');
+  const LIVE_URL = '/gridcast/forecast/latest.json';
+  const SNAPSHOT_URL = 'assets/gridcast-snapshot.json';
+  const NS = 'http://www.w3.org/2000/svg';
+  const fmtGW = (mw) => (mw / 1000).toFixed(1);
+  const fmtTime = (d) => d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris' });
+  const fmtDay = (d) => d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Paris' });
+  const el = (name, attrs, parent) => { const n = document.createElementNS(NS, name); for (const k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; };
+
+  function draw(data) {
+    const pts = data.points.map((p) => ({ ...p, d: new Date(p.t) }));
+    const W = chart.clientWidth, H = chart.clientHeight;
+    const m = { t: 12, r: W < 520 ? 12 : 120, b: 28, l: 44 };
+    const x0 = pts[0].d.getTime(), x1 = pts[pts.length - 1].d.getTime();
+    const lo = Math.min(...pts.map((p) => p.lo95)), hi = Math.max(...pts.map((p) => p.hi95));
+    const pad = (hi - lo) * 0.08, y0 = lo - pad, y1 = hi + pad;
+    const X = (d) => m.l + ((d.getTime() - x0) / (x1 - x0)) * (W - m.l - m.r);
+    const Y = (v) => m.t + (1 - (v - y0) / (y1 - y0)) * (H - m.t - m.b);
+    chart.innerHTML = '';
+    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: 'none' }, chart);
+    const grid = el('g', { class: 'grid' }, svg), axis = el('g', { class: 'axis' }, svg);
+    const step = (y1 - y0) / 1000 > 30 ? 10000 : 5000;
+    for (let v = Math.ceil(y0 / step) * step; v <= y1; v += step) {
+      el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }, grid);
+      el('text', { x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end' }, axis).textContent = fmtGW(v);
+    }
+    el('text', { x: m.l - 8, y: m.t - 0, 'text-anchor': 'end' }, axis).textContent = 'GW';
+    pts.forEach((p, i) => {
+      const h = Number(fmtTime(p.d).slice(0, 2)), mm = fmtTime(p.d).slice(3);
+      if (mm === '00' && h % (W < 520 ? 6 : 3) === 0) el('text', { x: X(p.d), y: H - 6, 'text-anchor': 'middle' }, axis).textContent = fmtTime(p.d);
     });
-    navLinks.forEach(a => {
-        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-    });
-}
-window.addEventListener('scroll', updateNav, { passive: true });
+    const area = (a, b) => 'M' + pts.map((p) => `${X(p.d)},${Y(p[a])}`).join('L') + 'L' + pts.slice().reverse().map((p) => `${X(p.d)},${Y(p[b])}`).join('L') + 'Z';
+    const line = (k) => 'M' + pts.filter((p) => p[k] != null).map((p) => `${X(p.d)},${Y(p[k])}`).join('L');
+    el('path', { class: 'band95', d: area('hi95', 'lo95') }, svg);
+    el('path', { class: 'band80', d: area('hi80', 'lo80') }, svg);
+    const hasBench = pts.some((p) => p.bench != null);
+    if (hasBench) el('path', { class: 'bench', d: line('bench') }, svg);
+    const med = el('path', { class: 'median', d: line('p50') }, svg);
+    med.style.setProperty('--len', med.getTotalLength());
+    if (W >= 520) {
+      const last = pts[pts.length - 1];
+      el('text', { class: 'label', x: X(last.d) + 8, y: Y(last.p50) + 4 }, svg).textContent = 'Median';
+      el('text', { class: 'label muted', x: X(last.d) + 8, y: Y(last.hi80) - 2 }, svg).textContent = '80% interval';
+      el('text', { class: 'label muted', x: X(last.d) + 8, y: Y(last.hi95) - 10 }, svg).textContent = '95% interval';
+      if (hasBench) { const lb = pts.filter((p) => p.bench != null).pop(); el('text', { class: 'label muted', x: X(lb.d) + 8, y: Y(lb.bench) + 18 }, svg).textContent = 'RTE day-ahead'; }
+    }
+    // Hover readout: answers the visitor's pointer, nothing moves on its own.
+    const hover = el('g', { class: 'hover', style: 'display:none' }, svg);
+    const vline = el('line', { y1: m.t, y2: H - m.b }, hover);
+    const tip = document.createElement('div'); tip.className = 'tip'; chart.appendChild(tip);
+    const show = (evt) => {
+      const r = chart.getBoundingClientRect(), px = evt.clientX - r.left;
+      let best = pts[0];
+      for (const p of pts) if (Math.abs(X(p.d) - px) < Math.abs(X(best.d) - px)) best = p;
+      const xx = X(best.d);
+      vline.setAttribute('x1', xx); vline.setAttribute('x2', xx); hover.style.display = '';
+      tip.style.display = 'block'; tip.style.left = `${Math.min(Math.max(xx, 80), W - 80)}px`; tip.style.top = `${Y(best.hi95)}px`;
+      tip.innerHTML = `<b>${fmtTime(best.d)}</b> median ${fmtGW(best.p50)} GW<br>80%: ${fmtGW(best.lo80)}–${fmtGW(best.hi80)} GW` + (best.bench != null ? `<br>RTE: ${fmtGW(best.bench)} GW` : '');
+    };
+    chart.onpointermove = show; chart.onpointerdown = show;
+    chart.onpointerleave = () => { hover.style.display = 'none'; tip.style.display = 'none'; };
+  }
 
-// Fade-in on scroll
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            observer.unobserve(e.target);
-        }
-    });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  function describe(data, live) {
+    const day = new Date(data.target_date + 'T12:00:00Z');
+    status.innerHTML = live
+      ? `<span class="dot"></span>For ${fmtDay(day)}, issued ${new Date(data.issued_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris' })} Paris time`
+      : `<span class="dot stale"></span>Archived run for ${fmtDay(day)}`;
+    const tr = data.track_record;
+    if (tr && tr.days > 0) {
+      const pct = (v) => `${(v * 100).toFixed(0)}%`;
+      foot.innerHTML = [
+        `<div><b>${pct(tr.coverage80)}</b>of hours fell inside the 80% interval</div>`,
+        `<div><b>${pct(tr.coverage95)}</b>inside the 95% interval</div>`,
+        tr.mape != null ? `<div><b>${tr.mape.toFixed(1)}%</b>mean absolute error${tr.mape_bench != null ? ` (RTE: ${tr.mape_bench.toFixed(1)}%)` : ''}</div>` : '',
+        `<div><b>${tr.days}</b>days scored in public</div>`,
+      ].join('');
+    }
+  }
 
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-// Subtle spotlight effect following cursor
-const spotlight = document.getElementById('spotlight');
-document.addEventListener('mousemove', (e) => {
-    spotlight.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, rgba(29, 78, 216, 0.07), transparent 80%)`;
-});
+  const load = (url) => fetch(url, { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); });
+  let current = null;
+  load(LIVE_URL).then((d) => { current = d; draw(d); describe(d, true); })
+    .catch(() => load(SNAPSHOT_URL).then((d) => { current = d; draw(d); describe(d, false); }))
+    .catch(() => { document.getElementById('live').hidden = true; });
+  let raf = 0;
+  addEventListener('resize', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => current && draw(current)); });
+})();
 </script>
-
 </body>
 </html>

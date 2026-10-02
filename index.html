@@ -116,28 +116,29 @@ p { margin: 0 0 1em; }
 .intro strong { color: var(--ink); font-weight: 500; }
 .links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; margin-top: 1.75rem; font-weight: 500; }
 
-/* The live forecast: the one loud element on the page */
-.live { grid-column: 1 / -1; margin-top: clamp(2.5rem, 6vw, 4rem); }
-.live-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; align-items: baseline; margin-bottom: 0.75rem; }
-.live-head h3 { font-size: clamp(1.25rem, 2.6vw, 1.6rem); font-weight: 500; }
-.live-head .status { color: var(--slate); font-size: 0.95rem; }
-.status .dot { display: inline-block; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--teal); margin-right: 0.45rem; vertical-align: 0.05rem; }
-.status .dot.stale { background: var(--slate); }
+/* The cold-snap week: the one loud element on the page */
+.fan { grid-column: 1 / -1; margin-top: clamp(2.5rem, 6vw, 4rem); }
+.fan-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; align-items: baseline; margin-bottom: 0.75rem; }
+.fan-head h3 { font-size: clamp(1.25rem, 2.6vw, 1.6rem); font-weight: 500; }
+.fan-head .status { color: var(--slate); font-size: 0.95rem; }
 .chart { position: relative; width: 100%; height: clamp(15rem, 34vw, 22rem); }
 .chart svg { width: 100%; height: 100%; display: block; overflow: visible; }
 .chart .axis text { fill: var(--slate); font-size: 12px; font-family: "IBM Plex Sans", system-ui, sans-serif; }
 .chart .grid line { stroke: var(--rule); }
 .chart .band95 { fill: var(--teal-band-outer); }
 .chart .band80 { fill: var(--teal-band); }
-.chart .median { fill: none; stroke: var(--teal); stroke-width: 2.25; }
-.chart .bench { fill: none; stroke: var(--amber); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.chart .days line { stroke: var(--rule); stroke-dasharray: 2 4; }
+.chart .actual { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; }
+.chart .miss { fill: var(--amber); }
 .chart .label { fill: var(--ink); font-size: 13px; font-family: "IBM Plex Sans", system-ui, sans-serif; }
 .chart .label.muted { fill: var(--slate); }
 .chart .hover line { stroke: var(--slate); stroke-width: 1; }
 .chart .tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 0.45rem 0.65rem; font-size: 0.85rem; line-height: 1.4; white-space: nowrap; transform: translate(-50%, -110%); display: none; box-shadow: 0 6px 18px rgba(14, 26, 43, 0.08); }
-.live-foot { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1rem 2rem; margin-top: 1.25rem; color: var(--slate); font-size: 0.95rem; }
-.live-foot b { display: block; color: var(--ink); font-weight: 600; font-size: 1.35rem; font-family: "IBM Plex Sans Condensed", system-ui, sans-serif; }
-.live-note { color: var(--slate); font-size: 0.95rem; margin-top: 1rem; max-width: var(--measure); }
+.fan-foot { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1rem 2rem; margin-top: 1.25rem; color: var(--slate); font-size: 0.95rem; }
+.fan-foot b { display: block; color: var(--ink); font-weight: 600; font-size: 1.35rem; font-family: "IBM Plex Sans Condensed", system-ui, sans-serif; }
+.fan-note { color: var(--slate); font-size: 0.95rem; margin-top: 1rem; max-width: var(--measure); }
+.fan-note .legend { white-space: nowrap; }
+.fan-note .key { display: inline-block; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--amber); vertical-align: 0.05rem; }
 
 /* Work: each project is a question and its answer */
 .work { list-style: none; margin: 0; padding: 0; }
@@ -178,7 +179,7 @@ footer { padding: 2rem 0 3rem; border-top: 1px solid var(--rule); color: var(--s
   .hero .rail { order: 2; }
   .hero .rail img { max-width: 6.5rem; }
   .hero .col { order: 1; }
-  .live { order: 3; }
+  .fan { order: 3; }
 }
 @media (max-width: 520px) {
   .timeline li { grid-template-columns: minmax(0, 1fr); }
@@ -186,8 +187,9 @@ footer { padding: 2rem 0 3rem; border-top: 1px solid var(--rule); color: var(--s
   .prs .what { text-align: left; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .chart .median { stroke-dasharray: var(--len, 0); stroke-dashoffset: var(--len, 0); animation: draw 1.4s ease-out 0.2s forwards; }
-  .chart .band80, .chart .band95 { opacity: 0; animation: fade 0.9s ease-out 0.9s forwards; }
+  .chart .band80, .chart .band95 { opacity: 0; animation: fade 0.8s ease-out 0.1s forwards; }
+  .chart .actual { stroke-dasharray: var(--len, 0); stroke-dashoffset: var(--len, 0); animation: draw 1.8s ease-out 0.5s forwards; }
+  .chart .miss { opacity: 0; animation: fade 0.6s ease-out 2.2s forwards; }
   @keyframes draw { to { stroke-dashoffset: 0; } }
   @keyframes fade { to { opacity: 1; } }
 }
@@ -212,14 +214,19 @@ footer { padding: 2rem 0 3rem; border-top: 1px solid var(--rule); color: var(--s
       </p>
     </div>
 
-    <div class="live" id="live" aria-labelledby="live-title">
-      <div class="live-head">
-        <h3 id="live-title">Tomorrow’s electricity demand in France, forecast this morning</h3>
-        <p class="status" id="live-status"><span class="dot stale"></span>Loading the latest run</p>
+    <div class="fan" id="fan" aria-labelledby="fan-title">
+      <div class="fan-head">
+        <h3 id="fan-title">The hardest week of the energy crisis, forecast a day ahead</h3>
+        <p class="status">French electricity demand, 10–16 December 2022</p>
       </div>
-      <div class="chart" id="chart" role="img" aria-label="Fan chart of tomorrow's French electricity demand with 80% and 95% prediction intervals"></div>
-      <div class="live-foot" id="live-foot"></div>
-      <p class="live-note">Median with 80% and 95% prediction intervals from <a href="https://github.com/Pchambet/gridcast">gridcast</a>. A scheduled job re-runs the model every day on public RTE and Open-Meteo data and scores every past forecast in the open. <a href="https://pchambet.github.io/gridcast/">How it works</a></p>
+      <div class="chart" id="chart" role="img" aria-label="French electricity demand during the December 2022 cold snap against the 80% and 95% prediction intervals issued the day before; about half the hours fall outside the 80% interval"></div>
+      <div class="fan-foot">
+        <div><b>51%</b>of hours inside the 80% interval that week</div>
+        <div><b>86%</b>inside the 95% interval</div>
+        <div><b>80.0% and 95.0%</b>over 38,732 hours, 2022 to 2026</div>
+        <div><b>2.9%</b>mean absolute error that week (RTE: 1.9%)</div>
+      </div>
+      <p class="fan-note">Actual demand against the intervals <a href="https://github.com/Pchambet/gridcast">gridcast</a> issued at noon the day before, scored out of sample. <span class="legend"><span class="key"></span> Hours outside the 80% interval.</span> The bands hold on average, not in every week: measuring that gap, and how fast recalibration closes it, is the point of the project. <a href="https://pchambet.github.io/gridcast/">Full report</a></p>
     </div>
   </section>
 
@@ -239,7 +246,7 @@ footer { padding: 2rem 0 3rem; border-top: 1px solid var(--rule); color: var(--s
         <li>
           <div>
             <h3>Can a demand forecast publish uncertainty bands that stay honest through a crisis?</h3>
-            <p class="answer">On average, yes: over 38,732 out-of-sample hours the 80% and 95% intervals cover 80.0% and 95.0% of French demand. Month to month only partly: a frozen interval is on target 12% of the time, rolling recalibration 50%. Compared fairly, RTE's own point forecast is more accurate, and the page says so. The forecast runs again every day in public.</p>
+            <p class="answer">On average, yes: over 38,732 out-of-sample hours the 80% and 95% intervals cover 80.0% and 95.0% of French demand. Month to month only partly: a frozen interval is on target 12% of the time, rolling recalibration 50%. Compared fairly, RTE's own point forecast is more accurate, and the report says so.</p>
             <p class="meta">LightGBM quantiles, conformalized quantile regression with adaptive conformal inference, a strict day-ahead information set, a scheduled GitHub Actions job.</p>
             <p class="go"><a href="https://github.com/Pchambet/gridcast">Code</a><a href="https://pchambet.github.io/gridcast/">Report</a></p>
           </div>
@@ -365,55 +372,51 @@ footer { padding: 2rem 0 3rem; border-top: 1px solid var(--rule); color: var(--s
 
 (() => {
   const chart = document.getElementById('chart');
-  const status = document.getElementById('live-status');
-  const foot = document.getElementById('live-foot');
-  const LIVE_URL = '/gridcast/forecast/latest.json';
-  const SNAPSHOT_URL = 'assets/gridcast-snapshot.json';
   const NS = 'http://www.w3.org/2000/svg';
   const fmtGW = (mw) => (mw / 1000).toFixed(1);
-  const fmtTime = (d) => d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris' });
-  const fmtDay = (d) => d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Paris' });
+  const tz = { timeZone: 'Europe/Paris' };
+  const hourOf = (d) => Number(d.toLocaleTimeString('en-GB', { hour: '2-digit', hourCycle: 'h23', ...tz }));
+  const fmtDay = (d, narrow) => d.toLocaleDateString('en-GB', narrow ? { day: 'numeric', ...tz } : { weekday: 'short', day: 'numeric', ...tz });
+  const fmtStamp = (d) => `${fmtDay(d)}, ${d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', ...tz })}`;
   const el = (name, attrs, parent) => { const n = document.createElementNS(NS, name); for (const k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; };
 
   function draw(data) {
-    const pts = data.points.map((p) => ({ ...p, d: new Date(p.t) }));
-    const W = chart.clientWidth, H = chart.clientHeight;
-    const m = { t: 12, r: W < 520 ? 12 : 120, b: 28, l: 44 };
+    const pts = data.points.map((p) => ({ ...p, d: new Date(p.t), out: p.actual < p.lo80 || p.actual > p.hi80 }));
+    const W = chart.clientWidth, H = chart.clientHeight, narrow = W < 520;
+    const m = { t: 12, r: narrow ? 8 : 112, b: 28, l: 40 };
     const x0 = pts[0].d.getTime(), x1 = pts[pts.length - 1].d.getTime();
-    const lo = Math.min(...pts.map((p) => p.lo95)), hi = Math.max(...pts.map((p) => p.hi95));
-    const pad = (hi - lo) * 0.08, y0 = lo - pad, y1 = hi + pad;
+    const lo = Math.min(...pts.map((p) => Math.min(p.lo95, p.actual))), hi = Math.max(...pts.map((p) => Math.max(p.hi95, p.actual)));
+    const pad = (hi - lo) * 0.06, y0 = lo - pad, y1 = hi + pad;
     const X = (d) => m.l + ((d.getTime() - x0) / (x1 - x0)) * (W - m.l - m.r);
     const Y = (v) => m.t + (1 - (v - y0) / (y1 - y0)) * (H - m.t - m.b);
     chart.innerHTML = '';
     const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: 'none' }, chart);
-    const grid = el('g', { class: 'grid' }, svg), axis = el('g', { class: 'axis' }, svg);
-    const step = (y1 - y0) / 1000 > 30 ? 10000 : 5000;
-    for (let v = Math.ceil(y0 / step) * step; v <= y1; v += step) {
+    const grid = el('g', { class: 'grid' }, svg), days = el('g', { class: 'days' }, svg), axis = el('g', { class: 'axis' }, svg);
+    for (let v = Math.ceil(y0 / 10000) * 10000; v <= y1; v += 10000) {
       el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }, grid);
       el('text', { x: m.l - 8, y: Y(v) + 4, 'text-anchor': 'end' }, axis).textContent = fmtGW(v);
     }
-    el('text', { x: m.l - 8, y: m.t - 0, 'text-anchor': 'end' }, axis).textContent = 'GW';
+    el('text', { x: m.l - 8, y: m.t, 'text-anchor': 'end' }, axis).textContent = 'GW';
+    // One label per day at local noon, a dotted line at each local midnight.
     pts.forEach((p, i) => {
-      const h = Number(fmtTime(p.d).slice(0, 2)), mm = fmtTime(p.d).slice(3);
-      if (mm === '00' && h % (W < 520 ? 6 : 3) === 0) el('text', { x: X(p.d), y: H - 6, 'text-anchor': 'middle' }, axis).textContent = fmtTime(p.d);
+      const h = hourOf(p.d);
+      if (h === 0 && i > 0) el('line', { x1: X(p.d), x2: X(p.d), y1: m.t, y2: H - m.b }, days);
+      if (h === 12) el('text', { x: X(p.d), y: H - 6, 'text-anchor': 'middle' }, axis).textContent = fmtDay(p.d, narrow);
     });
     const area = (a, b) => 'M' + pts.map((p) => `${X(p.d)},${Y(p[a])}`).join('L') + 'L' + pts.slice().reverse().map((p) => `${X(p.d)},${Y(p[b])}`).join('L') + 'Z';
-    const line = (k) => 'M' + pts.filter((p) => p[k] != null).map((p) => `${X(p.d)},${Y(p[k])}`).join('L');
     el('path', { class: 'band95', d: area('hi95', 'lo95') }, svg);
     el('path', { class: 'band80', d: area('hi80', 'lo80') }, svg);
-    const hasBench = pts.some((p) => p.bench != null);
-    if (hasBench) el('path', { class: 'bench', d: line('bench') }, svg);
-    const med = el('path', { class: 'median', d: line('p50') }, svg);
-    med.style.setProperty('--len', med.getTotalLength());
-    if (W >= 520) {
-      // End labels, pushed apart so none overlaps (lines often end within a few pixels).
+    const actual = el('path', { class: 'actual', d: 'M' + pts.map((p) => `${X(p.d)},${Y(p.actual)}`).join('L') }, svg);
+    actual.style.setProperty('--len', actual.getTotalLength());
+    for (const p of pts) if (p.out) el('circle', { class: 'miss', cx: X(p.d), cy: Y(p.actual), r: narrow ? 2 : 2.5 }, svg);
+    if (!narrow) {
+      // End labels, pushed apart so none overlaps.
       const last = pts[pts.length - 1];
       const labels = [
         { text: '95% interval', y: Y(last.hi95) - 6, cls: 'label muted' },
         { text: '80% interval', y: Y(last.hi80) - 2, cls: 'label muted' },
-        { text: 'Median', y: Y(last.p50) + 4, cls: 'label' },
+        { text: 'Actual demand', y: Y(last.actual) + 4, cls: 'label' },
       ];
-      if (hasBench) { const lb = pts.filter((p) => p.bench != null).pop(); labels.push({ text: 'RTE day-ahead', y: Y(lb.bench) + 4, cls: 'label muted' }); }
       labels.sort((a, b) => a.y - b.y);
       for (let i = 1; i < labels.length; i++) labels[i].y = Math.max(labels[i].y, labels[i - 1].y + 15);
       for (const l of labels) el('text', { class: l.cls, x: X(last.d) + 8, y: l.y }, svg).textContent = l.text;
@@ -428,38 +431,17 @@ footer { padding: 2rem 0 3rem; border-top: 1px solid var(--rule); color: var(--s
       for (const p of pts) if (Math.abs(X(p.d) - px) < Math.abs(X(best.d) - px)) best = p;
       const xx = X(best.d);
       vline.setAttribute('x1', xx); vline.setAttribute('x2', xx); hover.style.display = '';
-      tip.style.display = 'block'; tip.style.left = `${Math.min(Math.max(xx, 80), W - 80)}px`; tip.style.top = `${Y(best.hi95)}px`;
-      tip.innerHTML = `<b>${fmtTime(best.d)}</b> median ${fmtGW(best.p50)} GW<br>80%: ${fmtGW(best.lo80)}–${fmtGW(best.hi80)} GW` + (best.bench != null ? `<br>RTE: ${fmtGW(best.bench)} GW` : '');
+      tip.style.display = 'block'; tip.style.left = `${Math.min(Math.max(xx, 90), W - 90)}px`; tip.style.top = `${Y(Math.max(best.hi95, best.actual))}px`;
+      tip.innerHTML = `<b>${fmtStamp(best.d)}</b> actual ${fmtGW(best.actual)} GW<br>80% interval: ${fmtGW(best.lo80)}–${fmtGW(best.hi80)} GW` + (best.out ? '<br>outside the 80% interval' : '');
     };
     chart.onpointermove = show; chart.onpointerdown = show;
     chart.onpointerleave = () => { hover.style.display = 'none'; tip.style.display = 'none'; };
   }
 
-  function describe(data, live) {
-    const day = new Date(data.target_date + 'T12:00:00Z');
-    status.innerHTML = live
-      ? `<span class="dot"></span>For ${fmtDay(day)}, issued ${new Date(data.issued_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris' })} Paris time`
-      : `<span class="dot stale"></span>Archived run for ${fmtDay(day)}`;
-    const tr = data.track_record;
-    if (live && tr && tr.days === 0) {
-      foot.innerHTML = '<div>The public track record starts once the first forecast day has passed: each day is scored against RTE’s published demand.</div>';
-    }
-    if (tr && tr.days > 0) {
-      const pct = (v) => `${(v * 100).toFixed(0)}%`;
-      foot.innerHTML = [
-        `<div><b>${pct(tr.coverage80)}</b>of hours fell inside the 80% interval</div>`,
-        `<div><b>${pct(tr.coverage95)}</b>inside the 95% interval</div>`,
-        tr.mape != null ? `<div><b>${tr.mape.toFixed(1)}%</b>mean absolute error${tr.mape_bench != null ? ` (RTE: ${tr.mape_bench.toFixed(1)}%)` : ''}</div>` : '',
-        `<div><b>${tr.days}</b>days scored in public</div>`,
-      ].join('');
-    }
-  }
-
-  const load = (url) => fetch(url, { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); });
   let current = null;
-  load(LIVE_URL).then((d) => { current = d; draw(d); describe(d, true); })
-    .catch(() => load(SNAPSHOT_URL).then((d) => { current = d; draw(d); describe(d, false); }))
-    .catch(() => { document.getElementById('live').hidden = true; });
+  fetch('assets/gridcast-coldsnap.json').then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then((d) => { current = d; draw(d); })
+    .catch(() => { document.getElementById('fan').hidden = true; });
   let raf = 0;
   addEventListener('resize', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => current && draw(current)); });
 })();

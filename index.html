@@ -406,11 +406,17 @@ footer { padding: 2rem 0 3rem; border-top: 1px solid var(--rule); color: var(--s
     const med = el('path', { class: 'median', d: line('p50') }, svg);
     med.style.setProperty('--len', med.getTotalLength());
     if (W >= 520) {
+      // End labels, pushed apart so none overlaps (lines often end within a few pixels).
       const last = pts[pts.length - 1];
-      el('text', { class: 'label', x: X(last.d) + 8, y: Y(last.p50) + 4 }, svg).textContent = 'Median';
-      el('text', { class: 'label muted', x: X(last.d) + 8, y: Y(last.hi80) - 2 }, svg).textContent = '80% interval';
-      el('text', { class: 'label muted', x: X(last.d) + 8, y: Y(last.hi95) - 10 }, svg).textContent = '95% interval';
-      if (hasBench) { const lb = pts.filter((p) => p.bench != null).pop(); el('text', { class: 'label muted', x: X(lb.d) + 8, y: Y(lb.bench) + 18 }, svg).textContent = 'RTE day-ahead'; }
+      const labels = [
+        { text: '95% interval', y: Y(last.hi95) - 6, cls: 'label muted' },
+        { text: '80% interval', y: Y(last.hi80) - 2, cls: 'label muted' },
+        { text: 'Median', y: Y(last.p50) + 4, cls: 'label' },
+      ];
+      if (hasBench) { const lb = pts.filter((p) => p.bench != null).pop(); labels.push({ text: 'RTE day-ahead', y: Y(lb.bench) + 4, cls: 'label muted' }); }
+      labels.sort((a, b) => a.y - b.y);
+      for (let i = 1; i < labels.length; i++) labels[i].y = Math.max(labels[i].y, labels[i - 1].y + 15);
+      for (const l of labels) el('text', { class: l.cls, x: X(last.d) + 8, y: l.y }, svg).textContent = l.text;
     }
     // Hover readout: answers the visitor's pointer, nothing moves on its own.
     const hover = el('g', { class: 'hover', style: 'display:none' }, svg);
@@ -435,6 +441,9 @@ footer { padding: 2rem 0 3rem; border-top: 1px solid var(--rule); color: var(--s
       ? `<span class="dot"></span>For ${fmtDay(day)}, issued ${new Date(data.issued_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Paris' })} Paris time`
       : `<span class="dot stale"></span>Archived run for ${fmtDay(day)}`;
     const tr = data.track_record;
+    if (live && tr && tr.days === 0) {
+      foot.innerHTML = '<div>The public track record starts once the first forecast day has passed: each day is scored against RTE’s published demand.</div>';
+    }
     if (tr && tr.days > 0) {
       const pct = (v) => `${(v * 100).toFixed(0)}%`;
       foot.innerHTML = [
